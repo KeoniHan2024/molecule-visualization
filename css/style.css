@@ -1,0 +1,343 @@
+@font-face { font-family: Duo; src: url('../assets/fonts/CafeDeParisSans-BWwJx.ttf'); } 
+
+.mol-container {
+  width: 100%;
+  height: 1920px;
+  position: relative;
+  /* touch-action: none; */
+  pointer-events: none;
+  /* cursor: none; */
+  z-index: 1;
+}
+
+.mol-container .button-container {
+  pointer-events: all;
+}
+
+.mol-container .help-container {
+  pointer-events: all;
+}
+
+.searchContainer {
+    text-align: center;
+  }
+
+/* input[type="text"] {
+  margin-top: 10px;
+} */
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+.mb10 {
+  margin-bottom: 10px
+}
+
+.mt10 {
+  margin-top: 10px
+}
+
+#Tool {
+  display: inline; /* or inline-block */
+}
+
+.selected {
+  font-size: 3vw;
+}
+
+.container {
+  display: flex;
+}
+
+.mol-container {
+  position: relative;
+  flex: 1;
+}
+
+.video-container {
+  margin-left: 0px; 
+} 
+.canvasbox {
+    border-radius: 3px;
+    margin-right: 10px;
+    width: 450px;
+    height: 338px;
+    border-bottom: 3px solid #0063FF;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 10px 0 #00000030;
+    display: inline;
+}
+
+#customCursor {
+    position: absolute;
+    width: 75; /* Adjust the width */
+    height: 75px; /* Adjust the height */
+    display: block;
+    z-index: 2;
+}
+
+.slide {
+  display: none;
+}
+
+.slide.active {
+  display: block;
+}
+
+.slide.active ul {
+  text-align: left;
+}
+
+.help-container {
+  position: absolute;
+  top: 0;
+  left: 0; /* Align to the top-right corner */
+  display: flex;
+  height: 20%;
+  width: 5%;
+  flex-direction: column;
+  align-items: center; /* Align items to the right */
+  justify-content: flex-start; /* Align items to the top */
+  z-index: 1; /* Ensure the button container is displayed above other elements */
+  border: 1.2px solid white; /* Add border to make buttons more visible */
+  background-image: linear-gradient(to right, #2b5876 0%, #4e4376  51%, #2b5876  100%);
+  background-size: 200% auto;
+  color: white;           
+  box-shadow: 0 0 20px #eee;
+  transition: all 0.3s ease; /* Transition for smooth animation */
+  flex: 1; /* Each button takes up equal space vertically */
+}
+
+.button-container {
+  position: absolute;
+  top: 0;
+  right: 0; /* Align to the top-right corner */
+  display: flex;
+  height: 100%;
+  width: 25%;
+  flex-direction: column;
+  align-items: center; /* Align items to the right */
+  justify-content: flex-start; /* Align items to the top */
+  z-index: 1; /* Ensure the button container is displayed above other elements */
+  border: 1.2px solid white; /* Add border to make buttons more visible */
+  background-image: linear-gradient(to right, #2b5876 0%, #4e4376  51%, #2b5876  100%);
+  background-size: 200% auto;
+  color: white;           
+  box-shadow: 0 0 20px #eee;
+  transition: all 0.3s ease; /* Transition for smooth animation */
+  flex: 1; /* Each button takes up equal space vertically */
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.button-container.expanded {
+  transform: scale(1.04); /* Increase size by 10% */
+}
+.button-container .button-85 {
+  margin-bottom: 5px; /* Add margin between buttons */
+}
+
+.button {
+  margin: 5px;
+  padding: 10px;
+  background-color: white; /* Change background color to white */
+  color: black; /* Change text color to black */
+  border: 1px solid black; /* Add border to make buttons more visible */
+  cursor: pointer;
+}
+.button.expanded {
+  transform: scale(1.1); /* Increase size by 10% */
+}
+.button-85 {
+  padding: 0.6em 2em;
+  text-shadow: rgba(7, 182, 226, 0.751) 2px 3px;
+  font-size: 4.2vw;
+  font-family: Duo;
+  text-align: center;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: all 0.3s ease; /* Transition for smooth animation */
+  height: 70%;
+  width: 90%;
+}
+
+.tutorial-inner {
+  background-color: floralwhite;
+  border-radius: 25px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  padding: 15px 25px;
+  text-align: center;
+  font-size: 4vw;
+  width: 75%;
+  height: 90%;
+  z-index: 1;
+}
+
+.tutorial-inner h2 {
+  font-size: 10vw;
+}
+
+.tutorial-inner h3 {
+  font-size: 7vw;
+}
+
+.tutorial-inner p {
+  line-height: 24px;
+  margin: 10px 0;
+}
+
+
+.tutorial {
+  background-color: rgba(0,0,0,0.3);
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 0;
+  
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.tutorial.open {
+  opacity: 1;
+  z-index: 1;
+}
+
+.button-85.active:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  text-align: center;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 4s linear infinite; /* Reduced duration for faster glow */
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 11px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 400% 0;
+  }
+}
+
+.button-85.active:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+.button-85.expanded {
+  transform: scale(1.1); /* Increase size by 10% */
+}
+
+.tutorial .button-85 {
+  height: 20%;
+  font-size: 10vw;
+  margin-top: 4vh;
+  padding: 0.3em 0.1em;
+  border-radius: 25px;
+}
+
+.help-container .button-85 {
+  font-size:  auto;
+  justify-content: center;
+  align-items: center;  
+  text-align: center;
+}
+
+.button-85 img {
+  width: 64px; /* Ensure the image fills the button */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove extra space below images */
+  height: 64px;
+}
+
+.steps-list {
+  list-style-type: circle; 
+  list-style-position: inside;
+}
+
+.loading {
+  background-color: rgba(0,0,0,0.3);
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-inner {
+  background-color: floralwhite;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  padding: 100px 0px;
+  padding-right: 10px;
+  margin-right: 10px;
+  font-size: 10vh;
+  text-align: center;
+  justify-content: center;
+  width: 75%;
+  z-index: 5;
+  border-radius: 25px;
+}
+
+
+.loading.active {
+  opacity: 1;
+  z-index: 5;
+}
+

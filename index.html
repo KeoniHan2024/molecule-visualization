@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/carbon-components.css" />
+    <title>3D Molecule Viewer</title>
+    
+    <!-- Third Party Libraries -->
+    <script src="./lib/3Dmol-min-2.1.0.js"></script>
+    <script src="./lib/3Dmol.ui-min-2.1.0.js"></script>
+    <script src="./lib/jquery-3.6.0.min.js"></script> 
+    <script src="./lib/handtrack.min-0.1.0.js"></script>
+    
+    <!-- Local Libraries-->
+    <script src="index.js"></script>
+    <script src="handCam.js"></script>
+</head>
+
+<body class="bx--body p20">
+    <div class="container" id="front-panel" style="pointer-events: auto;">
+         <!-- Container for the molecule -->
+        <img src="./assets/img/open.png" class="customCursor" id="customCursor">
+        <div id="molecule_container" class="mol-container">
+            <div id=toolbox class="button-container">
+                <button id = "pan" onclick = selectPanTool() class="button-85">Pan</button>
+                <button id = "rotate" onclick = "selectRotateTool()" class="button-85">Rotate</button>
+                <button id = "zoom" onclick = selectZoomTool() class="button-85">Zoom</button>
+            </div>
+            <div id=helpbox class="help-container">          
+                <button id="noTool" onclick="deselectTool()" class="button-85">
+                    <img src="./assets/img/open.png" alt="No Tool">
+                </button>
+                
+                <button id="resetView" onclick="resetView()" class="button-85">
+                    <img src="./assets/img/reset.png" alt="Reset">
+                </button>
+                <button id="help" onclick="restartTutorial()" class="button-85">
+                    <img src="./assets/img/help.png" alt="Help">
+                </button>
+            </div>
+        </div>
+        
+        
+        <div class="loading active" id="loadingScreen">
+            <div class="loading-inner">
+                LOADING . . . . .
+            </div>
+        </div>
+    
+
+
+        <div class="tutorial" id="tutorialWindow">
+            <div class="tutorial-inner">
+                <h2>TUTORIAL</h2>
+                    <div class="slide active" id="slide0">
+                        <h3>Move Cursor</h3>
+                            <ul class="steps-list">
+                                <li>Open your palm to move the cursor.</li>
+                                <li>Turn your hand over 90 degrees (pointing towards camera) to readjust.</li>
+                            </ul> 
+                            <video style="width: 50%; height: 50%;" autoplay loop muted>
+                                <source src="./assets/vids/Step1.mp4" type="video/mp4">
+                            </video>
+                    </div>
+                    <div class="slide" id="slide1">
+                        <h3>Select Tool</h3>
+                        <ul class="steps-list">
+                            <li>Close your fist to select a tool from the toolbar.</li>
+                        </ul>
+                        <video style="width: 50%; height: 50%;" autoplay loop muted>
+                            <source src="./assets/vids/Step2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="slide" id="slide2">
+                        <h3>Use Tool</h3>
+                        <ul class="steps-list">
+                            <li>Move the cursor into the 3D space.</li>
+                            <li>Close your fist to activate the selected tool.</li>
+                            <li>Manipulate objects by moving your hand while the fist is closed.</li>
+                        </ul>
+                        <video style="width: 50%; height: 50%;" autoplay loop muted>
+                            <source src="./assets/vids/Step3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                <button id="next" onclick = "nextStep()" class='button-85'>Next Step</button>
+            </div>
+        </div>
+        
+    </div>
+
+   
+    <!-- <div style="display: none;">
+        <h2>Threshold Slider</h2>
+        <input type="range" min="0" max="5"  step="0.2" value="2.5" class="slider" id="thresholdSlider">
+        <p>Threshold Value: <span id="thresholdValue">2.5</span></p>
+
+
+    </div> -->
+
+    <!-- This is used to bind enter key to search button when in the entry field-->
+    <div style="display: inline;">
+        <button onclick="debugMode()" style = "right:0;" id = "debugMode">Debug Mode</button>
+        <!-- <h2 style="display: none; font-size: 3vw;">Selected Tool: </h2> <span style = "display: none; " selected" id="Tool">None</span></p> -->
+        <!-- <button onclick="toggleVideo()" id="startCam">Toggle Camera</button> -->
+        <select id="cameraSelect"></select>
+            <input type="text" id="searchBox" placeholder="Enter a molecule ID or URL">
+            <button onclick="loadUserDefined()" id = "searchButton">Search Molecule</button>
+    </div>
+    <div class="video-container">
+        <video class="videobox canvasbox" autoplay="autoplay" id="handCamVideo" style="display: none;" ></video>
+        <!-- <canvas id="canvasDrawings" styl="display: none"></canvas> -->
+    </div>
+    <script>
+        loadMolecule();
+            
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('pan').addEventListener('click', selectPanTool);
+            document.getElementById('rotate').addEventListener('click', selectRotateTool);
+            document.getElementById('zoom').addEventListener('click', selectZoomTool);
+        });
+        // $("#searchBox").keyup(function(event) {
+        // if (event.keyCode == 13) {
+        //     $("#searchButton").click();
+        // }
+        // });
+        
+         // press key 't' to set to toggle camera
+        //  document.addEventListener("keypress", function(event) {
+        // if (event.keyCode == 116) {
+        //         toggleVideo();
+        //     }
+        // });
+
+        // // Press Key 'h' to set to pan tool
+        // document.addEventListener("keypress", function(event) {
+        // if (event.keyCode == 104) {
+        //     console.log("Pan Tool Selected");
+        //     selectPanTool();
+        //     }
+        // });
+        // // press key 'r' to set to rotate tool
+        // document.addEventListener("keypress", function(event) {
+        // if (event.keyCode == 114) {
+        //         selectRotateTool();
+        //         console.log("Rotate Tool Selected");
+        //     }
+        // });
+        
+        // // press key 'z' to set to zoom tool
+        // document.addEventListener("keypress", function(event) {
+        // if (event.keyCode == 122) {
+        //         selectZoomTool();
+        //     }
+        // });
+    </script>
+</body>
+</html>
